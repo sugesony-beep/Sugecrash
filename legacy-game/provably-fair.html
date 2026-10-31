@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A client-side Provably Fair crash result verifier.">
+  <title>Crash Point | Provably Fair Verifier</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <p class="eyebrow">CRASH POINT</p>
+      <h1>Provably Fair Verifier</h1>
+      <p class="intro">Verify a completed round using its revealed server seed, previously published server-seed hash, client seed, and nonce.</p>
+    </header>
+
+    <section class="notice" aria-label="Important limitation">
+      <strong>Important:</strong> This verifier uses the example HMAC-SHA256 formula documented below. It does not prove that a third-party game uses this formula. The game operator must publish its exact algorithm and commitment before each round.
+    </section>
+
+    <section class="panel">
+      <form id="verify-form" novalidate>
+        <div class="field">
+          <label for="server-seed">Revealed server seed</label>
+          <input id="server-seed" name="serverSeed" type="text" autocomplete="off" spellcheck="false" placeholder="Enter the revealed server seed" required>
+        </div>
+        <div class="field">
+          <label for="server-hash">Server-seed SHA-256 hash (published before the round)</label>
+          <input id="server-hash" name="serverHash" type="text" autocomplete="off" spellcheck="false" placeholder="64-character hexadecimal hash" required>
+        </div>
+        <div class="field">
+          <label for="client-seed">Client seed</label>
+          <input id="client-seed" name="clientSeed" type="text" autocomplete="off" spellcheck="false" placeholder="Enter the client seed" required>
+        </div>
+        <div class="field">
+          <label for="nonce">Nonce / round number</label>
+          <input id="nonce" name="nonce" type="number" min="0" step="1" value="0" required>
+        </div>
+        <div class="field">
+          <label for="claimed-result">Displayed crash multiplier</label>
+          <input id="claimed-result" name="claimedResult" type="number" min="1" step="0.01" placeholder="Example: 2.35" required>
+        </div>
+        <button id="verify-button" type="submit">Verify round</button>
+      </form>
+      <div id="result" class="result" aria-live="polite" hidden></div>
+    </section>
+
+    <section class="panel guide">
+      <h2>How verification works</h2>
+      <ol>
+        <li>Calculate SHA-256 of the revealed server seed and compare it with the hash published before the round.</li>
+        <li>Calculate HMAC-SHA256 using the server seed as the key and <code>clientSeed:nonce</code> as the message.</li>
+        <li>Read the first 52 bits of the HMAC digest as an integer.</li>
+        <li>Calculate the crash multiplier using the example 1% house-edge formula and compare it with the displayed result.</li>
+      </ol>
+      <p class="formula"><code>crash = max(1.00, floor(99 × 2^52 / (2^52 − h)) / 100)</code></p>
+      <p class="muted">All verification runs locally in your browser. The seed values are not sent to a server.</p>
+    </section>
+    <footer>Provably Fair verification demo · Use HTTPS or localhost for Web Crypto support.</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "worldwide-crash-casino",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Compliance-gated Crash platform foundation (real-money wagering disabled by default)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:migrate": "node src/db/migrate.js",
+    "test": "node --test",
+    "admin:create": "node scripts/create-admin.js",
+    "check": "node --check src/server.js && node --check src/routes/auth.js && node --check src/routes/admin.js && node --check src/middleware/market.js && node --check src/middleware/verified-country.js && node --check scripts/create-admin.js && node --check public/app.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1",
+    "zod": "^3.24.1"
+  }
+}

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgame_crash_point=self.webpackChunkgame_crash_point||[]).push([[5661938],{0x5c2387b(s,e,a){s.exports=a.p+"common.manifest.9fb339290646.json"}}]);

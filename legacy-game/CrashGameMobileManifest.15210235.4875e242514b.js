@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgame_crash_point=self.webpackChunkgame_crash_point||[]).push([[0xe816fb],{0x176ff46(e,s,a){e.exports=a.p+"mobile.manifest.010ce1524829.json"}}]);
